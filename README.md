@@ -3,7 +3,7 @@
 A full-stack web application for posting and managing university research opportunities.
 Built for **CN – Assignment #1** (BS AI 5A, Fall 2026), National University of Computer & Emerging Sciences, Peshawar Campus.
 
-**GitHub Repository:** https://github.com/username/research-opportunity-portal  <!-- TODO: replace with your real repo link -->
+**GitHub Repository:** https://github.com/Muhammad-Ali512/research-opportunity-portal
 
 ## Tech Stack
 
