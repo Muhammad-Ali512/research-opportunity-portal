@@ -1,0 +1,129 @@
+{
+  "info": {
+    "name": "Research Opportunity Portal",
+    "description": "CRUD tests for the Research Opportunity Portal API. Run requests in order.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" },
+    { "key": "oppId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "1. Create Opportunity #1",
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
+        "pm.test('201 Created', () => pm.response.to.have.status(201));",
+        "pm.collectionVariables.set('oppId', pm.response.json().id);"
+      ] } }],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"title\": \"Deep Learning for Crop Disease Detection\",\n  \"description\": \"Train CNN models to classify fruit leaf diseases.\",\n  \"research_area\": \"Computer Vision\",\n  \"faculty_name\": \"Dr. Ahmed Khan\",\n  \"department\": \"Computer Science\",\n  \"required_skills\": \"Python, PyTorch, OpenCV\",\n  \"positions\": 2,\n  \"deadline\": \"2026-12-31\",\n  \"status\": \"Open\"\n}" },
+        "url": { "raw": "{{baseUrl}}/api/opportunities", "host": ["{{baseUrl}}"], "path": ["api", "opportunities"] }
+      }
+    },
+    {
+      "name": "2. Create Opportunity #2",
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
+        "pm.test('201 Created', () => pm.response.to.have.status(201));"
+      ] } }],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"title\": \"NLP for Urdu Sentiment Analysis\",\n  \"description\": \"Build transformer-based sentiment models for Urdu text.\",\n  \"research_area\": \"Natural Language Processing\",\n  \"faculty_name\": \"Dr. Sara Malik\",\n  \"department\": \"Artificial Intelligence\",\n  \"required_skills\": \"Python, Transformers\",\n  \"positions\": 3,\n  \"deadline\": \"2026-11-30\",\n  \"status\": \"Open\"\n}" },
+        "url": { "raw": "{{baseUrl}}/api/opportunities", "host": ["{{baseUrl}}"], "path": ["api", "opportunities"] }
+      }
+    },
+    {
+      "name": "3. Create Opportunity #3",
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
+        "pm.test('201 Created', () => pm.response.to.have.status(201));"
+      ] } }],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"title\": \"IoT-based Smart Campus Monitoring\",\n  \"description\": \"Design sensor networks for energy monitoring on campus.\",\n  \"research_area\": \"Internet of Things\",\n  \"faculty_name\": \"Dr. Imran Shah\",\n  \"department\": \"Electrical Engineering\",\n  \"required_skills\": \"C, Embedded Systems, MQTT\",\n  \"positions\": 1,\n  \"deadline\": \"2026-12-15\",\n  \"status\": \"Open\"\n}" },
+        "url": { "raw": "{{baseUrl}}/api/opportunities", "host": ["{{baseUrl}}"], "path": ["api", "opportunities"] }
+      }
+    },
+    {
+      "name": "4. Get All Opportunities",
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
+        "pm.test('200 OK', () => pm.response.to.have.status(200));",
+        "pm.test('Returns an array', () => pm.expect(pm.response.json()).to.be.an('array'));"
+      ] } }],
+      "request": {
+        "method": "GET",
+        "url": { "raw": "{{baseUrl}}/api/opportunities", "host": ["{{baseUrl}}"], "path": ["api", "opportunities"] }
+      }
+    },
+    {
+      "name": "5. Get One Opportunity",
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
+        "pm.test('200 OK', () => pm.response.to.have.status(200));"
+      ] } }],
+      "request": {
+        "method": "GET",
+        "url": { "raw": "{{baseUrl}}/api/opportunities/{{oppId}}", "host": ["{{baseUrl}}"], "path": ["api", "opportunities", "{{oppId}}"] }
+      }
+    },
+    {
+      "name": "6. Update Opportunity",
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
+        "pm.test('200 OK', () => pm.response.to.have.status(200));",
+        "pm.test('Title updated', () => pm.expect(pm.response.json().title).to.include('Updated'));"
+      ] } }],
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"title\": \"Updated: Deep Learning for Crop Disease Detection\",\n  \"required_skills\": \"Python, PyTorch, OpenCV, Data Augmentation\",\n  \"positions\": 4,\n  \"deadline\": \"2027-01-15\"\n}" },
+        "url": { "raw": "{{baseUrl}}/api/opportunities/{{oppId}}", "host": ["{{baseUrl}}"], "path": ["api", "opportunities", "{{oppId}}"] }
+      }
+    },
+    {
+      "name": "7. Close Opportunity (Open -> Closed)",
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
+        "pm.test('200 OK', () => pm.response.to.have.status(200));",
+        "pm.test('Status is Closed', () => pm.expect(pm.response.json().status).to.eql('Closed'));"
+      ] } }],
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"status\": \"Closed\"\n}" },
+        "url": { "raw": "{{baseUrl}}/api/opportunities/{{oppId}}", "host": ["{{baseUrl}}"], "path": ["api", "opportunities", "{{oppId}}"] }
+      }
+    },
+    {
+      "name": "8. Delete Opportunity",
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
+        "pm.test('200 OK', () => pm.response.to.have.status(200));"
+      ] } }],
+      "request": {
+        "method": "DELETE",
+        "url": { "raw": "{{baseUrl}}/api/opportunities/{{oppId}}", "host": ["{{baseUrl}}"], "path": ["api", "opportunities", "{{oppId}}"] }
+      }
+    },
+    {
+      "name": "9. Get Deleted Opportunity (404)",
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
+        "pm.test('404 Not Found', () => pm.response.to.have.status(404));"
+      ] } }],
+      "request": {
+        "method": "GET",
+        "url": { "raw": "{{baseUrl}}/api/opportunities/{{oppId}}", "host": ["{{baseUrl}}"], "path": ["api", "opportunities", "{{oppId}}"] }
+      }
+    },
+    {
+      "name": "10. Create with Invalid Data (400)",
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
+        "pm.test('400 Bad Request', () => pm.response.to.have.status(400));"
+      ] } }],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"title\": \"\",\n  \"positions\": -5,\n  \"deadline\": \"not-a-date\",\n  \"status\": \"Maybe\"\n}" },
+        "url": { "raw": "{{baseUrl}}/api/opportunities", "host": ["{{baseUrl}}"], "path": ["api", "opportunities"] }
+      }
+    }
+  ]
+}
